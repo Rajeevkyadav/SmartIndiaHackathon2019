@@ -1,0 +1,47 @@
+<%@page import="java.sql.*"%>
+<%@page import="java.lang.*"%>
+<%@page import="java.io.*"%>
+<%@page import="java.util.*"%>
+<html>
+<head>
+<title> seller </title> 
+</head>
+<body>
+<h2>Welcome Seller!<h2>
+<hr>
+<tr>
+      <td>SellerId</td>
+      <td> <input type="text" name="s_id"/><td>
+</tr>
+<%
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+            Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:rishavp","hr","hr");
+            Statement stmt=con.createStatement();
+            
+           
+            String seller_id=s_id; 
+            ResultSet rs=stmt.executeQuery("select ratio from seller where seller.sellerid='"+seller_id+"'");
+            rs.next();
+
+            out.println("<tr>");
+            out.println("<td>");  
+            out.println(rs.getString(1));
+            out.println("</td>");
+            out.println("</tr>");
+
+            rs=stmt.executeQuery("select productid, ratio from product where sellerid= '"+seller_id+"'");
+             while(rs.next())
+             {
+                      out.println("<tr>");
+                      out.println("<td>");
+                      out.println(rs.getString(1)+"   "+rs.getString(2));//html output
+                      out.println("</td>");
+                      out.println("</tr>");
+                     //System.out.println(rs.getString(2));
+             }
+           
+            
+            con.close();
+%>
+</body>
+</html>
